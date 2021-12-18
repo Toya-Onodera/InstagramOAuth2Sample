@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { IndexPageComponent } from "./components/pages/IndexPageComponent";
+import { App } from "./App";
 
 ReactDOM.render(
-  <IndexPageComponent />,
+  <App />,
   document.getElementById('root')
 );
