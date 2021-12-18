@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 // My Components
 import { TwitterLoginButton } from "../molecules/TwitterLoginButton";
+import { InstagramLoginButton } from "../molecules/InstagramLoginButton";
 
 export const SnsLogin: React.VFC = () => {
   return (
@@ -11,6 +12,7 @@ export const SnsLogin: React.VFC = () => {
 
       <LoginButtons>
         <TwitterLoginButton />
+        <InstagramLoginButton />
       </LoginButtons>
     </Wrapper>
   );
