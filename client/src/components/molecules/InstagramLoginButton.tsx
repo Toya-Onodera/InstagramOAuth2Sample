@@ -1,12 +1,19 @@
-import React from "react";
+import React, { useCallback } from "react";
 import styled from "styled-components";
 
 // Icons
 import InstagramIcon from "@mui/icons-material/Instagram";
 
+// Constants
+import { INSTAGRAM_LOGIN_URL } from "../../utils/constants";
+
 export const InstagramLoginButton: React.VFC = () => {
+  const instagramLogin = useCallback(() => {
+    window.location.href = INSTAGRAM_LOGIN_URL;
+  }, []);
+
   return (
-    <Wrapper>
+    <Wrapper onClick={instagramLogin}>
       <Button>
         <InstagramIcon fontSize="small" />
         <ButtonText>Sign in Instagram</ButtonText>
