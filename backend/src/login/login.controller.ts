@@ -20,4 +20,9 @@ export class LoginController {
         return res.send("failure");
     }
   }
+
+  @Get("instagram-token")
+  registerToken(@Req() req: Request, @Res() res: Response) {
+    return this.loginService.registerInstagramUserToken(req, res);
+  }
 }

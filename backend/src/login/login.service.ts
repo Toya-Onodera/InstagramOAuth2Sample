@@ -3,6 +3,11 @@ import { randomBytes } from "crypto";
 import { Request, Response } from "express";
 
 import { instagramOAuth2Client } from "../../lib/instagram/";
+import {
+  getInstagramLongToken,
+  getInstagramShortToken,
+  getInstagramUserName,
+} from "../../lib/instagram/instagram";
 
 @Injectable()
 export class LoginService {
@@ -18,11 +23,38 @@ export class LoginService {
 
     const authorizationCode = instagramOAuth2Client();
     const redirectUri = authorizationCode.authorizeURL({
-      redirect_uri: `${req.protocol}://${req.get("host")}/login/short-token/`,
+      redirect_uri: `${req.protocol}://${req.get(
+        "host",
+      )}/login/instagram-token/`,
       scope: "user_profile",
       state: state,
     });
 
     return res.redirect(redirectUri);
+  }
+
+  async registerInstagramUserToken(req: Request, res: Response): Promise<any> {
+    if (!req.cookies.state) {
+      res
+        .status(400)
+        .send(
+          "State cookie not set or expired.Maybe you took too long to authorize.Please try again.",
+        );
+    } else if (req.cookies.state !== req.query.state) {
+      res.status(400).send("State validation failed");
+    }
+
+    const instagramShortToken = await getInstagramShortToken(req);
+    const shortAccessToken = instagramShortToken.access_token;
+
+    const getInstagramLongTokenTask = getInstagramLongToken(shortAccessToken);
+    const getInstagramUserNameTask = getInstagramUserName(shortAccessToken);
+
+    const [instagramLongToken, instagramUserName] = await Promise.all([
+      getInstagramLongTokenTask,
+      getInstagramUserNameTask,
+    ]);
+
+    return res.send(instagramLongToken);
   }
 }
