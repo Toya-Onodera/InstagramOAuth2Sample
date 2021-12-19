@@ -146,4 +146,5 @@ typings/
 .env
 
 # config
-*/src/config/
+backend/config/
+client/src/config/

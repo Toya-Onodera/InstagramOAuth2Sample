@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 
 import { instagramOAuth2Client } from "../../lib/instagram/";
 import {
+  createFirebaseAccountForInstagram,
   getInstagramLongToken,
   getInstagramShortToken,
   getInstagramUserName,
@@ -55,6 +56,20 @@ export class LoginService {
       getInstagramUserNameTask,
     ]);
 
-    return res.send(instagramLongToken);
+    const firebaseSaveData = {
+      userId: instagramUserName.username,
+      instagramId: instagramUserName.id,
+      accessToken: instagramLongToken.access_token,
+    };
+
+    const firebaseToken = await createFirebaseAccountForInstagram(
+      firebaseSaveData,
+    );
+
+    const redirectUri = `${req.protocol}://${req.get(
+      "host",
+    )}?token=${firebaseToken}`;
+
+    return res.redirect(redirectUri);
   }
 }

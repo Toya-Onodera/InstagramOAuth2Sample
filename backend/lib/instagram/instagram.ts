@@ -9,6 +9,8 @@ import {
 } from "./interface";
 import { objectToUriStrings } from "../utils";
 
+import { firebaseAdmin, auth, database } from "../firebase";
+
 const USING_INSTAGRAM_GRAPH_API = "v12.0";
 
 export const instagramOAuth2Client = () => {
@@ -80,4 +82,37 @@ export async function getInstagramUserName(
 
   const token = await response.json();
   return token as instagramUserField;
+}
+
+// Instagram のアカウントを Firebase に登録する関数
+export async function createFirebaseAccountForInstagram({
+  userId,
+  instagramId,
+  accessToken,
+}): Promise<string> {
+  // これを行わないと DB への書き込みができいない
+  firebaseAdmin();
+
+  const uid = `instagram:${instagramId}`;
+  const databaseTask = database().ref(`/${uid}`).set(accessToken);
+
+  const userCreationTask = auth()
+    .updateUser(uid, {
+      displayName: userId,
+    })
+    .catch((error) => {
+      if (error.code === "auth/user-not-found") {
+        return auth().createUser({
+          uid: uid,
+          displayName: userId,
+        });
+      }
+
+      throw error;
+    });
+
+  await Promise.all([databaseTask, userCreationTask]);
+  return await auth().createCustomToken(uid, {
+    user_id: userId,
+  });
 }
