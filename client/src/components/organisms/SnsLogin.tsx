@@ -4,19 +4,31 @@ import styled from "styled-components";
 // My Components
 import { TwitterLoginButton } from "../molecules/TwitterLoginButton";
 import { InstagramLoginButton } from "../molecules/InstagramLoginButton";
+import { LogoutButton } from "../molecules/LogoutButton";
 
-export const SnsLogin: React.VFC = () => {
-  return (
-    <Wrapper>
-      <Title>ログイン</Title>
-
-      <LoginButtons>
-        <TwitterLoginButton />
-        <InstagramLoginButton />
-      </LoginButtons>
-    </Wrapper>
-  );
+type Props = {
+  loggedIn: boolean;
+  accountSignOut: () => Promise<void>;
 };
+
+export const SnsLogin: React.FC<Props> = React.memo(
+  ({ loggedIn, accountSignOut }) => {
+    return loggedIn ? (
+      <Wrapper>
+        <Title>ログアウト</Title>
+        <LogoutButton accountSignOut={accountSignOut} />
+      </Wrapper>
+    ) : (
+      <Wrapper>
+        <Title>ログイン</Title>
+        <LoginButtons>
+          <TwitterLoginButton />
+          <InstagramLoginButton />
+        </LoginButtons>
+      </Wrapper>
+    );
+  },
+);
 
 const Wrapper = styled.div``;
 
