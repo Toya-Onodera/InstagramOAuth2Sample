@@ -1,1 +1,1 @@
-export const INSTAGRAM_LOGIN_URL = "/login?type=ig";
+export const INSTAGRAM_LOGIN_URL = "https://localhost:14000/login?type=ig";

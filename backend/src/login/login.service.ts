@@ -66,9 +66,7 @@ export class LoginService {
       firebaseSaveData,
     );
 
-    const redirectUri = `${req.protocol}://${req.get(
-      "host",
-    )}?token=${firebaseToken}`;
+    const redirectUri = `http://localhost:3000?instagram_token=${firebaseToken}`;
 
     return res.redirect(redirectUri);
   }
