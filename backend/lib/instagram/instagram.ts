@@ -90,9 +90,6 @@ export async function createFirebaseAccountForInstagram({
   instagramId,
   accessToken,
 }): Promise<string> {
-  // これを行わないと DB への書き込みができいない
-  firebaseAdmin();
-
   const uid = `instagram:${instagramId}`;
   const databaseTask = database().ref(`/${uid}`).set(accessToken);
 
