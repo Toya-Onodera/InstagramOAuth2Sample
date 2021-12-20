@@ -10,7 +10,9 @@ export const Header: React.VFC = () => {
   return (
     <Wrapper>
       <Contents>
-        <AccountName>ようこそ「{displayName}」さん</AccountName>
+        {displayName && (
+          <AccountName>ようこそ「{displayName}」さん</AccountName>
+        )}
       </Contents>
     </Wrapper>
   );
