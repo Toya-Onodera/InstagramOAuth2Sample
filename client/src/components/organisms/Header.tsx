@@ -1,10 +1,17 @@
 import React from "react";
 import styled from "styled-components";
 
+// Hooks
+import { useFirebaseHooks } from "../../hooks/useFirebaseHooks";
+
 export const Header: React.VFC = () => {
+  const { displayName } = useFirebaseHooks();
+
   return (
     <Wrapper>
-      <Contents />
+      <Contents>
+        <AccountName>ようこそ「{displayName}」さん</AccountName>
+      </Contents>
     </Wrapper>
   );
 };
@@ -16,8 +23,14 @@ const Wrapper = styled.header`
 `;
 
 const Contents = styled.div`
+  display: flex;
   width: 100%;
+  height: 100%;
   max-width: var(--max-contents-width);
   margin: 0 auto;
-  background: aliceblue;
+  align-items: center;
+`;
+
+const AccountName = styled.span`
+  color: #fafafa;
 `;

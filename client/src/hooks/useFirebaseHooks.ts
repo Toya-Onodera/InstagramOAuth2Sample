@@ -39,6 +39,7 @@ export const useFirebaseHooks = () => {
   useEffect(() => {
     onAuthStateChanged(auth, (authUser) => {
       if (authUser) {
+        console.log(authUser);
         setIsLogin(true);
       } else {
         setIsLogin(false);
@@ -46,8 +47,13 @@ export const useFirebaseHooks = () => {
     });
   }, []);
 
+  const displayName = useMemo(() => {
+    return auth.currentUser ? `${auth.currentUser.displayName}` : null;
+  }, [auth.currentUser]);
+
   return {
     isLogin,
+    displayName,
     accountSignOut,
   };
 };
