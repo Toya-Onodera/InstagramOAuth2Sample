@@ -52,7 +52,6 @@ const Button = styled.div`
 
 const ButtonText = styled.span`
   margin-left: 16px;
-  font-family: Roboto, serif;
   font-weight: 500;
   user-select: none;
 `;
