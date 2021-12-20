@@ -34,4 +34,8 @@ const Wrapper = styled.div``;
 
 const Title = styled.h3``;
 
-const LoginButtons = styled.div``;
+const LoginButtons = styled.div`
+  & > *:not(:first-child) {
+    margin-top: 16px;
+  }
+`;
