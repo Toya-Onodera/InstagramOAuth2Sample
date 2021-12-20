@@ -12,5 +12,8 @@ module.exports = {
   },
   plugins: [],
   extends: ["eslint:recommended", "prettier"],
-  rules: {},
+  rules: {
+    "no-unused-var": 0,
+    "no-undef": "off",
+  },
 };
